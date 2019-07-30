@@ -14,3 +14,8 @@ class MyApp extends StatelessWidget {
     );
   }
 }
+
+//
+//double temp = decodedData['main']['temp'];
+//int id = decodedData['weather'][0]['id'];
+//String name = decodedData['name'];
