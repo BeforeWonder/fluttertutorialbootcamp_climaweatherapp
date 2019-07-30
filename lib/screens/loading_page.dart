@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../services/location.dart';
 import 'package:http/http.dart' as http;
 import '../services/networking.dart';
+import '../screens/location_screen.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 const kApiKey ="6ec9d8fd5245789a3efd2c5c58cfbe00";
 class LoadingScreen extends StatefulWidget {
   @override
@@ -22,23 +24,21 @@ class _LoadingScreenState extends State<LoadingScreen> {
     void getLocation() async{
     Location location = Location();
     await location.getCurrentLocation();
-    latitude = location.latitude;
-    longitude = location.longitude;
-    String url ="https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=$kApiKey";
+    String url ="https://api.openweathermap.org/data/2.5/weather?lat=${location.latitude}&lon=${location.longitude}&appid=$kApiKey&units=metric";
     NetworkHelper networkHelper = NetworkHelper(url);
     var weatherData = await networkHelper.getData();
-    print(weatherData);
+    Navigator.push(context,MaterialPageRoute(builder: (context){
+      return LocationScreen(weatherData: weatherData);
+    }));
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Center(
-        child: RaisedButton(
-            onPressed: (){
-             print('pressed');
-            },
-            child: Text('Get Location'),
-        ),
+       child: SpinKitRipple(
+         size: 100.0,
+         color: Colors.white,
+       ),
       ),
     );
   }
